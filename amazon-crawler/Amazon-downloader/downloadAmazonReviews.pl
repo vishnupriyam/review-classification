@@ -46,12 +46,12 @@ while($id  = shift) {
 
     my $urlPart1 = "http://www.amazon.".$domain."/product-reviews/";
     my $urlPart2 = "/ref=cm_cr_arp_d_viewopt_sr?filterByStar=positive&&pageNumber=";
-    my $urlPart3 = "&sortBy=bySubmissionDateDescending";
+    my $urlPart3 = "&sortBy=helpful";
 
     my $referer = $urlPart1.$id.$urlPart2."1".$urlPart3;
 
     my $page = 1;
-	my $lastPage = 5;
+	my $lastPage = 10;
     while($page<=$lastPage) {
 
 		my $url = $urlPart1.$id.$urlPart2.$page.$urlPart3;

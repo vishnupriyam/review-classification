@@ -41,11 +41,11 @@ mkdir "amazonreviews/$domain";
 my $id = "";
 while($id  = shift) {
 
-    my $dir = "amazonreviews/$domain/$id-positive";
+    my $dir = "amazonreviews/$domain/$id-negative";
     mkdir $dir;
 
     my $urlPart1 = "http://www.amazon.".$domain."/product-reviews/";
-    my $urlPart2 = "/ref=cm_cr_arp_d_viewopt_sr?filterByStar=positive&&pageNumber=";
+    my $urlPart2 = "/ref=cm_cr_arp_d_viewopt_sr?filterByStar=one_star&&pageNumber=";
     my $urlPart3 = "&sortBy=helpful";
 
     my $referer = $urlPart1.$id.$urlPart2."1".$urlPart3;

@@ -3,7 +3,7 @@ import re
 def read_words(words_file):
     return [word for line in open(words_file, 'r') for word in line.split()]
 
-inputfile = "shuffled-data.txt"
+inputfile = "../data/shuffled-data.txt"
 outputfile = "stopwords-removed-data.txt"
 stopwordfile = "stopwords.txt"
 

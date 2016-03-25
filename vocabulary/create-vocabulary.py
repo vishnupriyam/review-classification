@@ -3,7 +3,7 @@ from nltk.stem import WordNetLemmatizer
 
 vocabfile = "vocabulary.txt"
 finput = open("../cleaned-data/stopwords-removed-data-nltk.txt","r");
-foutput = open("vocabulary.txt","w");
+foutput = open("vocabulary2.txt","w");
 
 positive_words = []
 negative_words = []
@@ -35,7 +35,7 @@ cn = Counter(neg_lem_words)
 for w in c:
    if (w != "+" and w != "-" and c[w] >=2):
        foutput.write(w+ " ");
-       foutput.write('{}'.format(cp[w]) + " ");
-       foutput.write('{}'.format(cn[w]) + " ");
-       foutput.write('{}'.format(c[w]) + " ");
+       #foutput.write('{}'.format(cp[w]) + " ");
+       #foutput.write('{}'.format(cn[w]) + " ");
+       #foutput.write('{}'.format(c[w]) + " ");
        foutput.write('\n');

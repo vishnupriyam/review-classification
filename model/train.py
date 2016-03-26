@@ -39,12 +39,14 @@ def train_multinomial_naive_bayes(reviews, vocabulary):
     #count(c) = total count of all words in vocabulary in class c file
     count_p = 0;
     count_n = 0;
+    p_counter = Counter(positive_reviews)
+    n_counter = Counter(negative_reviews)
 
-    #do word tokenisze beeterr else substrings also counted
+    #do counter better if positive review is a single string then substrings are also counted for a given word
 
     for word in vocabulary:
-        count_p = count_p + positive_reviews.count(word)
-        count_n = count_n + negative_reviews.count(word)
+        count_p = count_p + p_counter[word]
+        count_n = count_n + n_counter[word]
 
     #P(W|c) = (count(W,c)+1)/(count(c)+|V|)
 
@@ -52,14 +54,10 @@ def train_multinomial_naive_bayes(reviews, vocabulary):
     negative_probabilities = {}
 
     for word in vocabulary:
-        PPW = positive_reviews.count(word)
-        PNW = negative_reviews.count(word)
+        PPW = p_counter[word]
+        PNW = n_counter[word]
 
         positive_probabilities[word] = float(PPW + 1)/float(count_p + vocab_size)
         negative_probabilities[word] = float(PNW + 1)/float(count_n + vocab_size)
 
-
-    print(PP)
-    print(PN)
-    print(positive_probabilities)
     return(PP,PN,positive_probabilities,negative_probabilities);

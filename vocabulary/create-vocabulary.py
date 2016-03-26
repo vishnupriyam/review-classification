@@ -34,7 +34,8 @@ cn = Counter(neg_lem_words)
 
 for w in c:
    if (w != "+" and w != "-" and c[w] >=2):
-       foutput.write(w+ " ");
+       foutput.write(w);
+       #foutput.write(" ");
        #foutput.write('{}'.format(cp[w]) + " ");
        #foutput.write('{}'.format(cn[w]) + " ");
        #foutput.write('{}'.format(c[w]) + " ");

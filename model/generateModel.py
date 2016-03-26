@@ -23,9 +23,6 @@ vocabulary = []
 for line in freview:
     reviews.append(line)
 for line in fvocab:
-    vocabulary.append(line)
+    vocabulary.append(line.rstrip('\n'))
 
 (PP,PN,positive_probabilities,negative_probabilities) = train_multinomial_naive_bayes(reviews,vocabulary)
-
-print(PP)
-print(PN)

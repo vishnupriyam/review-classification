@@ -68,40 +68,46 @@ def accuracy(actual_classification,predicted_classification):
     acc = float(count)/float(length)
     return acc;
 
-reviewfile = "../cleaned-data/stopwords-removed-data-nltk.txt"
+def validate(reviewfile, vocabfile):
+    reviews = []
+    freview = open(reviewfile,"r")
+    for line in freview:
+        reviews.append(line.rstrip(' \n'));
 
-reviews = []
-freview = open(reviewfile,"r")
-for line in freview:
-    reviews.append(line.rstrip(' \n'));
+    reviewSet = FoldTen(reviews)
 
-reviewSet = FoldTen(reviews)
+    vocabulary = []
+    fvocab = open(vocabfile,"r")
+    for line in fvocab:
+        vocabulary.append(line.rstrip('\n'))
 
-vocabulary = []
-vocabfile = "../vocabulary/vocabulary2.txt"
-fvocab = open(vocabfile,"r")
-for line in fvocab:
-    vocabulary.append(line.rstrip('\n'))
+    readmefile = "README.md"
+    freadme = open(readmefile,"w")
 
-readmefile = "README.md"
-freadme = open(readmefile,"w")
+    avg_acc = 0
 
-avg_acc = 0
+    for i in range(0,10):
+        actual_classification = actual_class(reviewSet[i])
+        testSet = create_test_set(reviewSet[i])
+        trainingSet = Unfold(reviewSet,i)
+        (PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob) = train_multinomial_naive_bayes(trainingSet,vocabulary)
+        predicted_classification = predict(testSet,PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob)
+        acc_result = accuracy(actual_classification,predicted_classification)
+        freadme.write('run ' + str(i+1) + ": ")
+        freadme.write(str(acc_result) + "\n\n")
+        avg_acc += acc_result
 
-for i in range(0,10):
-    actual_classification = actual_class(reviewSet[i])
-    testSet = create_test_set(reviewSet[i])
-    trainingSet = Unfold(reviewSet,i)
-    (PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob) = train_multinomial_naive_bayes(trainingSet,vocabulary)
-    predicted_classification = predict(testSet,PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob)
-    acc_result = accuracy(actual_classification,predicted_classification)
-    freadme.write('run ' + str(i+1) + ": ")
-    freadme.write(str(acc_result) + "\n\n")
-    avg_acc += acc_result
+    avg_acc /= 10
 
-avg_acc /= 10
+    freadme.write('average accuracy ' + str(avg_acc) + "\n\n")
+    freadme.close()
+    fvocab.close()
+    freview.close()
 
-freadme.write('average accuracy ' + str(avg_acc) + "\n\n")
-freadme.close()
-fvocab.close()
-freview.close()
+def main():
+    reviewfile = "../cleaned-data/stopwords-removed-data-nltk.txt"
+    vocabfile = "../vocabulary/vocabulary2.txt"
+    validate(reviewfile, vocabfile)
+
+if __name__ == "__main__":
+    main()

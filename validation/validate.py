@@ -86,6 +86,8 @@ for line in fvocab:
 readmefile = "README.md"
 freadme = open(readmefile,"w")
 
+avg_acc = 0
+
 for i in range(0,10):
     actual_classification = actual_class(reviewSet[i])
     testSet = create_test_set(reviewSet[i])
@@ -95,3 +97,11 @@ for i in range(0,10):
     acc_result = accuracy(actual_classification,predicted_classification)
     freadme.write('run ' + str(i+1) + ": ")
     freadme.write(str(acc_result) + "\n\n")
+    avg_acc += acc_result
+
+avg_acc /= 10
+
+freadme.write('average accuracy ' + str(avg_acc) + "\n\n")
+freadme.close()
+fvocab.close()
+freview.close()

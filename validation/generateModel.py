@@ -10,7 +10,7 @@ from train import train_multinomial_naive_bayes
 check = len(sys.argv)
 if(check > 1):
     reviewfile = sys.argv[1]
-    vocabfile = sys.arg[2]
+    vocabfile = sys.argv[2]
 else:
     reviewfile = "../cleaned-data/stopwords-removed-data-nltk.txt"
     vocabfile  = "../vocabulary/vocabulary2.txt"
@@ -25,8 +25,8 @@ for line in freview:
 for line in fvocab:
     vocabulary.append(line.rstrip('\n'))
 
-(PP,PN,positive_probabilities,negative_probabilities) = train_multinomial_naive_bayes(reviews,vocabulary)
+(PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob) = train_multinomial_naive_bayes(reviews,vocabulary)
 
-training_model = (PP,PN,positive_probabilities,negative_probabilities)
+training_model = (PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob)
 
 pickle.dump(training_model,open("parameters.p","w"))

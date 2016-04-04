@@ -13,9 +13,6 @@ def read_words(words_file):
 
 stop_words_list =  read_words("stopwords.txt");
 
-line = "it's i'm don't"
-words = word_tokenize(line)
-
 lemmatizer = WordNetLemmatizer()
 
 for line in finput:

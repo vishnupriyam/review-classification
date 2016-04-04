@@ -57,4 +57,7 @@ def train_multinomial_naive_bayes(reviews, vocabulary):
         positive_probabilities[word] = float(PPW + 1)/float(count_p + vocab_size)
         negative_probabilities[word] = float(PNW + 1)/float(count_n + vocab_size)
 
-    return(PP,PN,positive_probabilities,negative_probabilities);
+    unseen_pos_prob = 1/float(count_p + vocab_size)
+    unseen_neg_prob = 1/float(count_n + vocab_size)
+
+    return(PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob);

@@ -34,17 +34,21 @@ def create_test_set(reviews):
     return test_reviews
 
 #predict the class of set of reviews
-def predict(testSet,PP,PN,positive_probabilities,negative_probabilities):
+def predict(testSet,PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob):
     predicted_class = []
-    negative_probab = math.log10(PN)
-    positive_probab = math.log10(PP)
     for review in testSet:
+        negative_probab = math.log10(PN)
+        positive_probab = math.log10(PP)
         review_words = word_tokenize(review)
         for w in review_words:
             if w in negative_probabilities:
                 negative_probab = negative_probab + math.log10(negative_probabilities[w])
+            else:
+                negative_probab = negative_probab + math.log10(unseen_neg_prob)
             if w in positive_probabilities:
                 positive_probab = positive_probab + math.log10(positive_probabilities[w])
+            else:
+                positive_probab = positive_probab + math.log10(unseen_pos_prob)
         if(negative_probab > positive_probab):
             result = '-'
         else:
@@ -86,8 +90,8 @@ for i in range(0,10):
     actual_classification = actual_class(reviewSet[i])
     testSet = create_test_set(reviewSet[i])
     trainingSet = Unfold(reviewSet,i)
-    (PP,PN,positive_probabilities,negative_probabilities) = train_multinomial_naive_bayes(trainingSet,vocabulary)
-    predicted_classification = predict(testSet,PP,PN,positive_probabilities,negative_probabilities)
+    (PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob) = train_multinomial_naive_bayes(trainingSet,vocabulary)
+    predicted_classification = predict(testSet,PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob)
     acc_result = accuracy(actual_classification,predicted_classification)
     freadme.write('run ' + str(i+1) + ": ")
     freadme.write(str(acc_result) + "\n")

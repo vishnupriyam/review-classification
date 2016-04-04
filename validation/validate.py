@@ -94,4 +94,4 @@ for i in range(0,10):
     predicted_classification = predict(testSet,PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob)
     acc_result = accuracy(actual_classification,predicted_classification)
     freadme.write('run ' + str(i+1) + ": ")
-    freadme.write(str(acc_result) + "\n")
+    freadme.write(str(acc_result) + "\n\n")

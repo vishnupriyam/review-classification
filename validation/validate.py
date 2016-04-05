@@ -1,4 +1,4 @@
-from train import train_multinomial_naive_bayes
+from model.train import train_multinomial_naive_bayes
 from nltk.tokenize import word_tokenize
 import math
 

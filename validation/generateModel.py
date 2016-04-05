@@ -12,7 +12,7 @@ if(check > 1):
     reviewfile = sys.argv[1]
     vocabfile = sys.argv[2]
 else:
-    reviewfile = "../cleaned-data/stopwords-removed-data-nltk.txt"
+    reviewfile = "../cleaneddata/stopwords-removed-data-nltk.txt"
     vocabfile  = "../vocabulary/vocabulary2.txt"
 
 freview = open(reviewfile,"r")

@@ -36,7 +36,7 @@ def generatemodel(reviewfile,vocabfile,paramfile):
     pickle.dump(training_model,open(paramfile,"w"))
 
 def main():
-    reviewfile = "../cleaned-data/stopwords-removed-data-nltk.txt"
+    reviewfile = "../cleaneddata/stopwords-removed-data-nltk.txt"
     vocabfile = "../vocabulary/vocabulary2.txt"
     paramfile = "parameters.p"
     generatemodel(reviewfile, vocabfile,paramfile)

@@ -21,7 +21,7 @@ def createvocabulary(reviewfile,vocabfile):
     foutput.close()
 
 def main():
-    reviewfile = "../cleaned-data/stopwords-removed-data-nltk.txt"
+    reviewfile = "../cleaneddata/stopwords-removed-data-nltk.txt"
     vocabfile  = "vocabulary2.txt"
     createvocabulary(reviewfile,vocabfile)
 

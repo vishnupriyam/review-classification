@@ -105,7 +105,7 @@ def validate(reviewfile, vocabfile):
     freview.close()
 
 def main():
-    reviewfile = "../cleaned-data/stopwords-removed-data-nltk.txt"
+    reviewfile = "../cleaneddata/stopwords-removed-data-nltk.txt"
     vocabfile = "../vocabulary/vocabulary2.txt"
     validate(reviewfile, vocabfile)
 

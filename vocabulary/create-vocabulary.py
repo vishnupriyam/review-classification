@@ -1,39 +1,26 @@
 from collections import Counter
 
-finput = open("../cleaned-data/stopwords-removed-data-nltk.txt","r");
-foutput = open("vocabulary2.txt","w");
+def createvocabulary(reviewfile,vocabfile):
 
-positive_words = []
-negative_words = []
-all_words      = []
-for line in finput:
-    words = line.split();
-    if(words[0] == "+"):
-        positive_words.extend(words[1:])
-    else:
-        negative_words.extend(words[1:])
-    all_words.extend(words)
+    finput = open(reviewfile,"r")
+    foutput = open(vocabfile,"w")
 
-lem_words = []
+    all_words      = []
+    for line in finput:
+        words = line.split();
+        all_words.extend(words)
 
-for w in all_words:
-    lem_words.append(w)
-pos_lem_words = []
-for w in positive_words:
-    pos_lem_words.append(w)
-neg_lem_words = []
-for w in negative_words:
-    neg_lem_words.append(w)
+    c = Counter(all_words)
 
-c = Counter(lem_words)
-cp = Counter(pos_lem_words)
-cn = Counter(neg_lem_words)
+    for w in c:
+       if (w != "+" and w != "-" and c[w] >=2):
+           foutput.write(w);
+           foutput.write('\n');
 
-for w in c:
-   if (w != "+" and w != "-" and c[w] >=2):
-       foutput.write(w);
-       #foutput.write(" ");
-       #foutput.write('{}'.format(cp[w]) + " ");
-       #foutput.write('{}'.format(cn[w]) + " ");
-       #foutput.write('{}'.format(c[w]) + " ");
-       foutput.write('\n');
+def main():
+    reviewfile = "../cleaned-data/stopwords-removed-data-nltk.txt"
+    vocabfile  = "vocabulary2.txt"
+    createvocabulary(reviewfile,vocabfile)
+
+if __name__ == "__main__":
+    main()

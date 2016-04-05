@@ -6,11 +6,21 @@ import imp
 import pickle
 
 from train import train_multinomial_naive_bayes
+from vocabulary.createVocabulary import createvocabulary
 
 def generatemodel(reviewfile,vocabfile,paramfile):
+    try:
+        freview = open(reviewfile,"r")
+    except IOError:
+        print("Training set file not found...\n\n")
+        raise IOError
 
-    freview = open(reviewfile,"r")
-    fvocab  = open(vocabfile,"r")
+    try:
+        fvocab  = open(vocabfile,"r")
+    except IOError:
+        print("vocabulary for the given training set not found...\nGenerating Vocabulary...\n")
+        createvocabulary(reviewfile, vocabfile)
+        fvocab  = open(vocabfile,"r")
 
     reviews = []
     vocabulary = []

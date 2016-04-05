@@ -11,32 +11,40 @@ def clean_review(review,stopwords):
     for word in review:
         word = lemmatizer.lemmatize(word)
         if word not in stopwords:
-            word = re.sub('[^A-Za-z ]','',word);
+            word = re.sub('[^A-Za-z ]','',word)
             if(len(word) != 0):
                 result += word+" "
     return result
 
-def main():
-    inputfile     = "../data/shuffled-data.txt"
-    outputfile    = "stopwords-removed-data-nltk.txt"
+def clean_review_set_file(inputfile, outputfile, stopwordfile):
+    try:
+        finput  = open(inputfile,"r")
+    except IOError:
+        print("Training set file not found...\n\n")
+        raise IOError
 
-    finput  = open(inputfile,"r");
-    foutput = open(outputfile,"w");
+    foutput = open(outputfile,"w")
 
-    stop_words_list =  read_words("stopwords.txt");
+    stop_words_list =  read_words(stopwordfile)
 
     lemmatizer = WordNetLemmatizer()
 
     for line in finput:
-        line = line.decode('utf-8').lower();
-        input_words = word_tokenize(line);
-        foutput.write(input_words[0] + " ");
+        line = line.decode('utf-8').lower()
+        input_words = word_tokenize(line)
+        foutput.write(input_words[0] + " ")
         result = clean_review(input_words[1:],stop_words_list)
         foutput.write(result)
-        foutput.write('\n');
+        foutput.write('\n')
 
-    finput.close();
-    foutput.close();
+    finput.close()
+    foutput.close()
+
+def main():
+    inputfile     = "../data/shuffled-data.txt"
+    outputfile    = "stopwords-removed-data-nltk.txt"
+    stopwordfile = "stopwords.txt"
+    clean_review_set_file(inputfile, outputfile, stopwordfile)
 
 if __name__ == "__main__":
     main()

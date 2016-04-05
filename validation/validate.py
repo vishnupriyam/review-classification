@@ -1,6 +1,7 @@
 from model.train import train_multinomial_naive_bayes
 from nltk.tokenize import word_tokenize
 import math
+from cleaneddata.remove_stopwords_nltk import clean_review_set_file
 
 #divide the given reviewset to
 def FoldTen(reviews):
@@ -68,16 +69,23 @@ def accuracy(actual_classification,predicted_classification):
     acc = float(count)/float(length)
     return acc;
 
-def validate(reviewfile, vocabfile):
+def validate(reviewfile, vocabfile, stopwordfile):
     reviews = []
-    freview = open(reviewfile,"r")
+    clean_review_set_file(reviewfile, "cleaneddata/stopwords-removed-data-nltk.txt", stopwordfile)
+    freview = open("cleaneddata/stopwords-removed-data-nltk.txt","r")
     for line in freview:
         reviews.append(line.rstrip(' \n'));
 
     reviewSet = FoldTen(reviews)
 
     vocabulary = []
-    fvocab = open(vocabfile,"r")
+    try:
+        fvocab = open(vocabfile,"r")
+    except IOError:
+        print("vocabulary for the given training set not found...\nGenerating Vocabulary...\n")
+        createvocabulary("cleaneddata/stopwords-removed-data-nltk.txt", vocabfile)
+        fvocab  = open(vocabfile,"r")
+
     for line in fvocab:
         vocabulary.append(line.rstrip('\n'))
 
@@ -103,11 +111,13 @@ def validate(reviewfile, vocabfile):
     freadme.close()
     fvocab.close()
     freview.close()
+    print("\n\nThe results have been successfully evaluated and been written into README.md file\n")
 
 def main():
     reviewfile = "../cleaneddata/stopwords-removed-data-nltk.txt"
     vocabfile = "../vocabulary/vocabulary2.txt"
-    validate(reviewfile, vocabfile)
+    stopwordfile = "../cleaneddata/stopwords.txt"
+    validate(reviewfile, vocabfile, stopwordfile)
 
 if __name__ == "__main__":
     main()

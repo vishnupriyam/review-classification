@@ -7,19 +7,16 @@ import pickle
 
 from train import train_multinomial_naive_bayes
 from vocabulary.createVocabulary import createvocabulary
+from cleaneddata.remove_stopwords_nltk import clean_review_set_file
 
 def generatemodel(reviewfile,vocabfile,paramfile):
-    try:
-        freview = open(reviewfile,"r")
-    except IOError:
-        print("Training set file not found...\n\n")
-        raise IOError
-
+    clean_review_set_file(reviewfile, "cleaneddata/stopwords-removed-data-nltk.txt", "cleaneddata/stopwords.txt")
+    freview = open("cleaneddata/stopwords-removed-data-nltk.txt", "r")
     try:
         fvocab  = open(vocabfile,"r")
     except IOError:
         print("vocabulary for the given training set not found...\nGenerating Vocabulary...\n")
-        createvocabulary(reviewfile, vocabfile)
+        createvocabulary("cleaneddata/stopwords-removed-data-nltk.txt", vocabfile)
         fvocab  = open(vocabfile,"r")
 
     reviews = []
@@ -38,7 +35,7 @@ def generatemodel(reviewfile,vocabfile,paramfile):
 def main():
     reviewfile = "../cleaneddata/stopwords-removed-data-nltk.txt"
     vocabfile = "../vocabulary/vocabulary2.txt"
-    paramfile = "parameters.p"
+    paramfile = "savedmodel.p"
     generatemodel(reviewfile, vocabfile,paramfile)
 
 if __name__ == "__main__":

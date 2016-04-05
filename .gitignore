@@ -92,7 +92,7 @@ ENV/
 .ropeproject
 
 #pickle dumped object files
-parameters.p
+savedmodel.p
 
 #generated vocabulary file
 vocabulary.txt

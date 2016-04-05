@@ -2,6 +2,7 @@ from model.train import train_multinomial_naive_bayes
 from nltk.tokenize import word_tokenize
 import math
 from cleaneddata.remove_stopwords_nltk import clean_review_set_file
+from vocabulary.createVocabulary import createvocabulary
 
 #divide the given reviewset to
 def FoldTen(reviews):

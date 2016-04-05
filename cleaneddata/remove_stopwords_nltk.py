@@ -29,13 +29,16 @@ def clean_review_set_file(inputfile, outputfile, stopwordfile):
 
     lemmatizer = WordNetLemmatizer()
 
+    seen = set()
     for line in finput:
         line = line.decode('utf-8').lower()
         input_words = word_tokenize(line)
         foutput.write(input_words[0] + " ")
         result = clean_review(input_words[1:],stop_words_list)
-        foutput.write(result)
-        foutput.write('\n')
+        if result not in seen:
+            foutput.write(result)
+            seen.add(result)
+            foutput.write('\n')
 
     finput.close()
     foutput.close()

@@ -134,15 +134,13 @@ def train_multinomial_bigram_naive_bayes(reviews, vocabulary):
             count_n = count_n + n_counter[word]
             vocab_size += 1
 
-    print(len(vocabulary))
-
     for line in vocabulary:
         line_a = line.split()
         if(len(line_a) == 2):
-            p_counter[line_a[0]] -= pb_counter[line]
-            p_counter[line_a[1]] -= pb_counter[line]
-            n_counter[line_a[0]] -= nb_counter[line]
-            n_counter[line_a[1]] -= nb_counter[line]
+            #p_counter[line_a[0]] -= pb_counter[line]
+            #p_counter[line_a[1]] -= pb_counter[line]
+            #n_counter[line_a[0]] -= nb_counter[line]
+            #n_counter[line_a[1]] -= nb_counter[line]
             positive_probabilities[line] = float(pb_counter[line]+ 1)/float(count_p + vocab_size)
             negative_probabilities[line] = float(nb_counter[line]+ 1)/float(count_n + vocab_size)
 

@@ -5,11 +5,11 @@ import sys
 import imp
 import pickle
 
-from train import train_multinomial_naive_bayes
+from train import train_multinomial_naive_bayes, train_multinomial_bigram_naive_bayes
 from vocabulary.createVocabulary import createvocabulary
 from cleaneddata.remove_stopwords_nltk import clean_review_set_file
 
-def generatemodel(reviewfile,vocabfile,paramfile):
+def generatemodel(reviewfile,vocabfile,paramfile,bigram = False):
     clean_review_set_file(reviewfile, "cleaneddata/stopwords-removed-data-nltk.txt", "cleaneddata/stopwords.txt")
     freview = open("cleaneddata/stopwords-removed-data-nltk.txt", "r")
     try:
@@ -26,7 +26,10 @@ def generatemodel(reviewfile,vocabfile,paramfile):
     for line in fvocab:
         vocabulary.append(line.rstrip('\n'))
 
-    (PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob) = train_multinomial_naive_bayes(reviews,vocabulary)
+    if(bigram):
+        (PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob) = train_multinomial_bigram_naive_bayes(reviews,vocabulary)
+    else:
+        (PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob) = train_multinomial_naive_bayes(reviews,vocabulary)
 
     training_model = (PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob)
 
@@ -36,7 +39,7 @@ def main():
     reviewfile = "../cleaneddata/stopwords-removed-data-nltk.txt"
     vocabfile = "../vocabulary/vocabulary2.txt"
     paramfile = "savedmodel.p"
-    generatemodel(reviewfile, vocabfile,paramfile)
+    generatemodel(reviewfile, vocabfile,paramfile,False)
 
 if __name__ == "__main__":
     main()

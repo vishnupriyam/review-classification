@@ -33,9 +33,9 @@ def clean_review_set_file(inputfile, outputfile, stopwordfile):
     for line in finput:
         line = line.decode('utf-8').lower()
         input_words = word_tokenize(line)
-        foutput.write(input_words[0] + " ")
         result = clean_review(input_words[1:],stop_words_list)
         if result not in seen:
+            foutput.write(input_words[0] + " ")
             foutput.write(result)
             seen.add(result)
             foutput.write('\n')

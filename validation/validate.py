@@ -1,8 +1,9 @@
-from model.train import train_multinomial_naive_bayes
+from model.train import train_multinomial_naive_bayes, train_multinomial_bigram_naive_bayes
 from nltk.tokenize import word_tokenize
 import math
 from cleaneddata.remove_stopwords_nltk import clean_review_set_file
 from vocabulary.createVocabulary import createvocabulary
+from nltk import bigrams
 
 #divide the given reviewset to
 def FoldTen(reviews):
@@ -58,6 +59,40 @@ def predict(testSet,PP,PN,positive_probabilities,negative_probabilities,unseen_p
         predicted_class.append(result)
     return predicted_class
 
+def bigram_predict(testSet,PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob):
+    predicted_class = []
+    for review in testSet:
+        negative_probab = math.log10(PN)
+        positive_probab = math.log10(PP)
+        review_words = word_tokenize(review)
+        review_bigrams = bigrams(review_words)
+        for w in review_bigrams:
+            bigram = w
+            w = w[0]+" " +w[1]
+            if w in negative_probabilities:
+                negative_probab = negative_probab + math.log10(negative_probabilities[w])
+            else:
+                if bigram[1] in negative_probabilities:
+                    if(negative_probabilities[bigram[1]] > 0):
+                        negative_probab = negative_probab + math.log10(negative_probabilities[bigram[1]])
+                else:
+                    negative_probab = negative_probab + math.log10(unseen_neg_prob)
+            if w in positive_probabilities:
+                positive_probab = positive_probab + math.log10(positive_probabilities[w])
+            else:
+                if bigram[1] in positive_probabilities:
+                    if(positive_probabilities[bigram[1]] > 0):
+                        positive_probab = positive_probab + math.log10(positive_probabilities[bigram[1]])
+                else:
+                    positive_probab = positive_probab + math.log10(unseen_pos_prob)
+        if(negative_probab > positive_probab):
+            result = '-'
+        else:
+            result = '+'
+        predicted_class.append(result)
+    return predicted_class
+
+
 def accuracy(actual_classification,predicted_classification):
     length = len(actual_classification)
     lengtht = len(predicted_classification)
@@ -70,7 +105,7 @@ def accuracy(actual_classification,predicted_classification):
     acc = float(count)/float(length)
     return acc;
 
-def validate(reviewfile, vocabfile, stopwordfile):
+def validate(reviewfile, vocabfile, stopwordfile,bigram = False):
     reviews = []
     clean_review_set_file(reviewfile, "cleaneddata/stopwords-removed-data-nltk.txt", stopwordfile)
     freview = open("cleaneddata/stopwords-removed-data-nltk.txt","r")
@@ -99,8 +134,12 @@ def validate(reviewfile, vocabfile, stopwordfile):
         actual_classification = actual_class(reviewSet[i])
         testSet = create_test_set(reviewSet[i])
         trainingSet = Unfold(reviewSet,i)
-        (PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob) = train_multinomial_naive_bayes(trainingSet,vocabulary)
-        predicted_classification = predict(testSet,PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob)
+        if(bigram == True):
+            (PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob) = train_multinomial_bigram_naive_bayes(trainingSet,vocabulary)
+            predicted_classification = bigram_predict(testSet,PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob)
+        else:
+            (PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob) = train_multinomial_naive_bayes(trainingSet,vocabulary)
+            predicted_classification = predict(testSet,PP,PN,positive_probabilities,negative_probabilities,unseen_pos_prob,unseen_neg_prob)
         acc_result = accuracy(actual_classification,predicted_classification)
         freadme.write('run ' + str(i+1) + ": ")
         freadme.write(str(acc_result) + "\n\n")

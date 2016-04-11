@@ -67,7 +67,7 @@ def bigram_predict(testSet,PP,PN,positive_probabilities,negative_probabilities,u
         review_words = []
         review_words.append('*')
         review_words.extend(word_tokenize(review))
-        review_words.append('</s>')
+        review_words.append('$')
         review_bigrams = bigrams(review_words)
         for w in review_bigrams:
             bigram = w
@@ -77,7 +77,13 @@ def bigram_predict(testSet,PP,PN,positive_probabilities,negative_probabilities,u
                 positive_probab = positive_probab + math.log10(positive_probabilities[w])
             else:
                 if bigram[0] in negative_probabilities and bigram[0] in positive_probabilities:
-                    if(negative_probabilities[bigram[0]] > 0 and positive_probabilities[bigram[0]] > 0):
+                    if(bigram[0] == '*'):
+                        negative_probab = negative_probab
+                        positive_probab = positive_probab
+                    else:
+                        #if(negative_probabilities[bigram[0]] < 0 or positive_probabilities[bigram[0]] < 0):
+                        #    print("issue with " + bigram[0] + " " + str(negative_probabilities[bigram[0]]) + " " + str(positive_probabilities[bigram[0]]))
+                        #if(negative_probabilities[bigram[0]] > 0 and positive_probabilities[bigram[0]] > 0):
                         negative_probab = negative_probab + math.log10(negative_probabilities[bigram[0]])
                         positive_probab = positive_probab + math.log10(positive_probabilities[bigram[0]])
                 else:
@@ -124,7 +130,10 @@ def validate(reviewfile, vocabfile, stopwordfile,bigram = False):
     for line in fvocab:
         vocabulary.append(line.rstrip('\n'))
 
-    readmefile = "README.md"
+    if(bigram):
+        readmefile = "BigramOutput.txt"
+    else:
+        readmefile = "UnigramOutput.txt"
     freadme = open(readmefile,"w")
 
     avg_acc = 0

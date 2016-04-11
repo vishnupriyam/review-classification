@@ -32,7 +32,7 @@ def createbigramvocabulary(reviewfile, vocabfile):
         tokenized_line = []
         tokenized_line.append('*')
         tokenized_line.extend(word_tokenize(line[1:]))
-        tokenized_line.append('</s>')
+        tokenized_line.append('$')
         bgrms = bigrams(tokenized_line)
         all_bigrams.extend(bgrms)
 

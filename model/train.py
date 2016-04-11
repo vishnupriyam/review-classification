@@ -90,17 +90,22 @@ def train_multinomial_bigram_naive_bayes(reviews, vocabulary):
     no_of_negative_reviews = 0
 
     for line in reviews:
-        words = word_tokenize(line[1:])
+        words = []
+        words.append('*')
+        words.extend(word_tokenize(line[1:]))
+        words.append('</s>')
         bigram_set = bigrams(words)
         for w in words:
             if(line[0] == "+"):
                 positive_reviews.append(w)
-                for bigram in bigram_set:
-                    positive_bigram_reviews.append(bigram[0]+" "+bigram[1])
             else:
                 negative_reviews.append(w)
-                for bigram in bigram_set:
-                    positive_bigram_reviews.append(bigram[0]+" "+bigram[1])
+        if(line[0] == "+"):
+            for bigram in bigram_set:
+                positive_bigram_reviews.append(bigram[0]+" "+bigram[1])
+        else:
+            for bigram in bigram_set:
+                negative_bigram_reviews.append(bigram[0]+" "+bigram[1])
         if(line[0]=="+"):
             no_of_positive_reviews+=1
         else:
@@ -137,10 +142,10 @@ def train_multinomial_bigram_naive_bayes(reviews, vocabulary):
     for line in vocabulary:
         line_a = line.split()
         if(len(line_a) == 2):
-            #p_counter[line_a[0]] -= pb_counter[line]
-            #p_counter[line_a[1]] -= pb_counter[line]
-            #n_counter[line_a[0]] -= nb_counter[line]
-            #n_counter[line_a[1]] -= nb_counter[line]
+            p_counter[line_a[0]] -= pb_counter[line]
+            p_counter[line_a[1]] -= pb_counter[line]
+            n_counter[line_a[0]] -= nb_counter[line]
+            n_counter[line_a[1]] -= nb_counter[line]
             positive_probabilities[line] = float(pb_counter[line]+ 1)/float(count_p + vocab_size)
             negative_probabilities[line] = float(nb_counter[line]+ 1)/float(count_n + vocab_size)
 

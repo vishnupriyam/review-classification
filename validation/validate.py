@@ -64,27 +64,26 @@ def bigram_predict(testSet,PP,PN,positive_probabilities,negative_probabilities,u
     for review in testSet:
         negative_probab = math.log10(PN)
         positive_probab = math.log10(PP)
-        review_words = word_tokenize(review)
+        review_words = []
+        review_words.append('*')
+        review_words.extend(word_tokenize(review))
+        review_words.append('</s>')
         review_bigrams = bigrams(review_words)
         for w in review_bigrams:
             bigram = w
             w = w[0]+" " +w[1]
-            if w in negative_probabilities:
+            if w in negative_probabilities and w in positive_probabilities:
                 negative_probab = negative_probab + math.log10(negative_probabilities[w])
-            else:
-                if bigram[1] in negative_probabilities:
-                    if(negative_probabilities[bigram[1]] > 0):
-                        negative_probab = negative_probab + math.log10(negative_probabilities[bigram[1]])
-                else:
-                    negative_probab = negative_probab + math.log10(unseen_neg_prob)
-            if w in positive_probabilities:
                 positive_probab = positive_probab + math.log10(positive_probabilities[w])
             else:
-                if bigram[1] in positive_probabilities:
-                    if(positive_probabilities[bigram[1]] > 0):
-                        positive_probab = positive_probab + math.log10(positive_probabilities[bigram[1]])
+                if bigram[0] in negative_probabilities and bigram[0] in positive_probabilities:
+                    if(negative_probabilities[bigram[0]] > 0 and positive_probabilities[bigram[0]] > 0):
+                        negative_probab = negative_probab + math.log10(negative_probabilities[bigram[0]])
+                        positive_probab = positive_probab + math.log10(positive_probabilities[bigram[0]])
                 else:
+                    negative_probab = negative_probab + math.log10(unseen_neg_prob)
                     positive_probab = positive_probab + math.log10(unseen_pos_prob)
+
         if(negative_probab > positive_probab):
             result = '-'
         else:

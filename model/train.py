@@ -171,12 +171,18 @@ def train_multinomial_bigram_naive_bayes(reviews, vocabulary):
             count_n = count_n + n_counter[word]
             vocab_size += 1
 
+    star_pos_count = no_of_positive_reviews
+    star_neg_count = no_of_negative_reviews
+
     #P(Wi-1,Wi,C) = (count(Wi-1,Wi,C) + 1)/(count(C) + |V|)
     for line in vocabulary:
         line_a = line.split()
         if(len(line_a) == 2):
             positive_probabilities[line] = float(pb_counter[line]+ 1)/float(count_p + vocab_size)
             negative_probabilities[line] = float(nb_counter[line]+ 1)/float(count_n + vocab_size)
+        if(line_a[0] == "*"):
+            star_pos_count -= pb_counter[line]
+            star_neg_count -= nb_counter[line]
 
     #P(W,C) = (count(W,C) + 1)/(count(C) + |V|)
     for line in vocabulary:
@@ -187,6 +193,9 @@ def train_multinomial_bigram_naive_bayes(reviews, vocabulary):
 
             positive_probabilities[line] = float(PPW + 1)/float(count_p + vocab_size)
             negative_probabilities[line] = float(PNW + 1)/float(count_n + vocab_size)
+
+    positive_probabilities['*'] = float(star_pos_count + 1) / float(count_p + vocab_size)
+    negative_probabilities['*'] = float(star_neg_count + 1) / float(count_n + vocab_size)
 
     unseen_pos_prob = 1/float(count_p + vocab_size)
     unseen_neg_prob = 1/float(count_n + vocab_size)

@@ -77,15 +77,15 @@ def bigram_predict(testSet,PP,PN,positive_probabilities,negative_probabilities,u
                 positive_probab = positive_probab + math.log10(positive_probabilities[w])
             else:
                 if bigram[0] in negative_probabilities and bigram[0] in positive_probabilities:
-                    if(bigram[0] == '*'):
-                        negative_probab = negative_probab
-                        positive_probab = positive_probab
-                    else:
+                    #if(bigram[0] == '*'):
+                    #    negative_probab = negative_probab
+                    #    positive_probab = positive_probab
+                    #else:
                         #if(negative_probabilities[bigram[0]] < 0 or positive_probabilities[bigram[0]] < 0):
                         #    print("issue with " + bigram[0] + " " + str(negative_probabilities[bigram[0]]) + " " + str(positive_probabilities[bigram[0]]))
                         #if(negative_probabilities[bigram[0]] > 0 and positive_probabilities[bigram[0]] > 0):
-                        negative_probab = negative_probab + math.log10(negative_probabilities[bigram[0]])
-                        positive_probab = positive_probab + math.log10(positive_probabilities[bigram[0]])
+                    negative_probab = negative_probab + math.log10(negative_probabilities[bigram[0]])
+                    positive_probab = positive_probab + math.log10(positive_probabilities[bigram[0]])
                 else:
                     negative_probab = negative_probab + math.log10(unseen_neg_prob)
                     positive_probab = positive_probab + math.log10(unseen_pos_prob)

@@ -1,6 +1,11 @@
 from collections import Counter
 from nltk import word_tokenize, bigrams
 
+'''
+    Creates a vocabulary and write the words in vocabulary to the vocabfile(unigrams with count >= 2)
+    @param - reviewfile - path to file containing all reviews
+    @param - vocabfile  - path to vocabulary file
+'''
 
 def createvocabulary(reviewfile,vocabfile):
 
@@ -21,6 +26,12 @@ def createvocabulary(reviewfile,vocabfile):
 
     finput.close()
     foutput.close()
+
+'''
+    Creates a vocabulary and write the words in vocabulary to the vocabfile (unigrams with count >= 2, bigrams with count>=3)
+    @param - reviewfile - path to file containing all reviews
+    @param - vocabfile  - path to vocabulary file
+'''
 
 def createbigramvocabulary(reviewfile, vocabfile):
     createvocabulary(reviewfile, vocabfile)

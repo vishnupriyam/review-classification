@@ -96,24 +96,6 @@ def train_multinomial_bigram_naive_bayes(reviews, vocabulary):
         words.append('$')
         bigram_gen = bigrams(words)
 
-        '''
-        for w in words:
-            if(line[0] == "+"):
-                positive_reviews.append(w)
-            else:
-                negative_reviews.append(w)
-        if(line[0] == "+"):
-            for bigram in bigram_set:
-                bigram_word = bigram[0] + " " + bigram[1]
-                if(bigram in vocabulary):
-                    positive_bigram_reviews.append(bigram[0]+" "+bigram[1])
-                else:
-                    positive_reviews.append(bigram[0])
-                    positive_reviews.append(bigram[1])
-        else:
-            for bigram in bigram_set:
-                negative_bigram_reviews.append(bigram[0]+" "+bigram[1])
-        '''
         size_bigram = 0
         bigram_set = []
         for bg in bigram_gen:
@@ -157,7 +139,6 @@ def train_multinomial_bigram_naive_bayes(reviews, vocabulary):
     pb_counter = Counter(positive_bigram_reviews)
     nb_counter = Counter(negative_bigram_reviews)
 
-
     count_p = 0;
     count_n = 0;
 
@@ -170,11 +151,6 @@ def train_multinomial_bigram_naive_bayes(reviews, vocabulary):
             count_p = count_p + p_counter[word]
             count_n = count_n + n_counter[word]
             vocab_size += 1
-
-    for w in p_counter:
-        p_counter[w] = p_counter[w]*2
-    for w in n_counter:
-        n_counter[w] = n_counter[w]*2
 
     for line in vocabulary:
         line_a = line.split()

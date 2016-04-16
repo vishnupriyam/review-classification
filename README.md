@@ -1,17 +1,18 @@
 Code:
 
-Stage 1 : file with labelled reviews - data/shuffled-data.txt
-Stage 2 : code - cleaneddata/remove_stopwords_nltk.py
-          data file after cleaning - stopwords-removed-data-nltk.txt
-Stage 3 : code - vocabulary/createVocabulary.py and the function is createvocabulary
-          vocabulary file - vocabulary/vocabulry2.txt
-Stage 4 : code - model/train.py and function is train_multinomial_naive_bayes and model is generated using model/generateModel.py
-Stage 5 : code - validate.py which uses validation/validate.py
-          Unigram accuracy results - UnigramOutput.txt
-Stage 6 : code - vocabulary/createVocabulary.py and the function is createbigramvocabulary
-          vocabulary file - vocabulary/vocabulary3.txt
-Stage 7 : code - model/train.py and function is train_multinomial_bigram_naive_bayes
-          validation - validate.py uses validation/validate.py and function used is bigram_predict
+Stage 1 : file with labelled reviews - data/shuffled-data.txt<br />
+Stage 2 : code - cleaneddata/remove_stopwords_nltk.py<br />
+          data file after cleaning - stopwords-removed-data-nltk.txt<br />
+Stage 3 : code - vocabulary/createVocabulary.py and the function is createvocabulary<br />
+          vocabulary file - vocabulary/vocabulry2.txt<br />
+Stage 4 : code - model/train.py and function is train_multinomial_naive_bayes and model is generated using model/generateModel.py<br />
+Stage 5 : code - validate.py which uses validation/validate.py<br />
+          Unigram accuracy results - UnigramOutput.txt<br />
+Stage 6 : code - vocabulary/createVocabulary.py and the function is createbigramvocabulary<br />
+          vocabulary file - vocabulary/vocabulary3.txt<br />
+Stage 7 : code - model/train.py and function is train_multinomial_bigram_naive_bayes<br />
+          validation - validate.py uses validation/validate.py and function used is bigram_predict<br />
+          accuracy results - bigramOutput.txt<br />
 
 Unigram Accuracy
 ----------------
@@ -48,15 +49,15 @@ average accuracy 0.872827968155<br/>
 
 Probability calculations
 ------------------------
-Probability P(c|d)= P(d|c)\*P(c)/P(d)
-based on which probability P(c1|d) or P(c2|d), class c1(pos) or c2(neg) is chosen...
-P(d|c) is calculated as:
-    P(d|c)=P(w1,w2,....w(n)|c) =P(w1,w2|c)\*P(w2,w3|c)....\*P(w(n-1),w(n)|c)   (Assumption is all conditional probabilities are independent...)
-      For Bigram model...
-      P(w1,w2|c)=(count(w1,w2|c)+1)/(count(c)+|V|)
-      For Unigram model...
-        Probablity of P(w|c)=(count(w,c)+1)/(count(c)+|V|)
-            count(w,c) = count of word w in all documents of class c
-            count(c)   = count of words in class c
-            |V|        = total distint words in the our trainig set
-           used add one smoothing
+Probability P(c|d)= P(d|c)\*P(c)/P(d)<br />
+based on which probability P(c1|d) or P(c2|d), class c1(pos) or c2(neg) is chosen...<br />
+P(d|c) is calculated as:<br />
+    P(d|c)=P(w1,w2,....w(n)|c) =P(w1,w2|c)\*P(w2,w3|c)....\*P(w(n-1),w(n)|c)   (Assumption is all conditional probabilities are independent...)<br />
+      For Bigram model...<br />
+      P(w1,w2|c)=(count(w1,w2|c)+1)/(count(c)+|V|)<br />
+      For Unigram model...<br />
+        Probablity of P(w|c)=(count(w,c)+1)/(count(c)+|V|)<br />
+            count(w,c) = count of word w in all documents of class c<br />
+            count(c)   = count of words in class c<br />
+            |V|        = total distint words in the our trainig set<br />
+           used add one smoothing<br />
